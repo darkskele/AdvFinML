@@ -13,16 +13,20 @@
       "externalConsole": false,
       "MIMode": "gdb",
       "setupCommands": [
-        { "description": "Enable pretty-printing", "text": "-enable-pretty-printing", "ignoreFailures": true }
+        {
+          "description": "Enable pretty-printing",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
       ],
-      "preLaunchTask": "Clean Build",
+      "preLaunchTask": "Clean Build Main",
       "miDebuggerPath": "/usr/bin/gdb"
     },
     {
       "name": "🧪 Run Tests (GoogleTest)",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/test/finml_tests",
+      "program": "${workspaceFolder}/build/tests/finml_tests",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
@@ -30,9 +34,13 @@
       "externalConsole": false,
       "MIMode": "gdb",
       "setupCommands": [
-        { "description": "Enable pretty-printing", "text": "-enable-pretty-printing", "ignoreFailures": true }
+        {
+          "description": "Enable pretty-printing",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
       ],
-      "preLaunchTask": "Clean Build",
+      "preLaunchTask": "Clean Build Tests",
       "miDebuggerPath": "/usr/bin/gdb"
     }
   ]

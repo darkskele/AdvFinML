@@ -2,21 +2,39 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Clean Build",
+      "label": "Clean Build Main",
       "type": "shell",
       "command": "bash",
       "args": [
         "-c",
-        "mkdir -p build && cd build && cmake .. && cmake --build . --clean-first"
+        "mkdir -p build && cd build && cmake .. && cmake --build . --target main_exe --clean-first"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
       },
-      "problemMatcher": ["$gcc"],
+      "problemMatcher": [
+        "$gcc"
+      ],
       "group": {
         "kind": "build",
         "isDefault": true
       }
+    },
+    {
+      "label": "Clean Build Tests",
+      "type": "shell",
+      "command": "bash",
+      "args": [
+        "-c",
+        "mkdir -p build && cd build && cmake -DCMAKE_BUILD_TYPE=Debug .. && cmake --build . --target finml_tests --clean-first"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": "build"
     }
   ]
 }

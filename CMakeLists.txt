@@ -5,13 +5,21 @@ project(FinMLCpp VERSION 1.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Project structure
-include_directories(${CMAKE_SOURCE_DIR}/include)
-file(GLOB_RECURSE SRC_FILES ${CMAKE_SOURCE_DIR}/src/*.cpp)
+# Include paths
+include_directories(
+    ${CMAKE_SOURCE_DIR}/include/FinancialDataStructures/BarAggregator/Policies
+    ${CMAKE_SOURCE_DIR}/include/FinancialDataStructures/BarAggregator
+    ${CMAKE_SOURCE_DIR}/include/FinancialDataStructures
+    ${CMAKE_SOURCE_DIR}/include
+)
 
-# Library
-add_library(finml STATIC ${SRC_FILES})
+# Just build the library from headers (no .cpp needed)
+add_library(finml INTERFACE)
+target_include_directories(finml INTERFACE ${CMAKE_SOURCE_DIR}/include)
 
-# Main executable
-add_executable(main_exe ${SRC_FILES})
+# Build main separately
+add_executable(main_exe src/main.cpp)
 target_link_libraries(main_exe finml)
+
+# Add tests
+add_subdirectory(tests)

@@ -2,17 +2,16 @@ import os
 import csv
 import zipfile
 import requests
-from glob import glob
 from tqdm import tqdm
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import BTCUSDT_Kline_1s, Base 
+from models import BTCUSDT_TradeTick, Base 
 
 # Define data paths
 DATA_DIR = "data/bitcoin"
 DB_PATH = os.path.join(DATA_DIR, "bitcoin.db")
 DB_URI = f"sqlite:///{DB_PATH}"
-BASE_URL = "https://data.binance.vision/data/spot/daily/klines/BTCUSDT/1s/"
+BASE_URL = "https://data.binance.vision/data/spot/daily/trades/BTCUSDT/"
 
 # Database setup
 engine = create_engine(DB_URI)
@@ -23,7 +22,7 @@ session = Session()
 # Download data
 def download_zip(day: int, month: int = 5, year: int = 2025) -> str:
     # Constructing paths
-    filename = f"BTCUSDT-1s-{year}-{month:02d}-{day:02d}"
+    filename = f"BTCUSDT-trades-{year}-{month:02d}-{day:02d}"
     zip_path = os.path.join(DATA_DIR, f"{filename}.zip")
     url = f"{BASE_URL}{filename}.zip"
 
@@ -52,21 +51,16 @@ def parse_csv_and_insert(csv_file: str):
         # Parse each row
         for row in reader:
             try:
-                entry = BTCUSDT_Kline_1s(
-                    open_time=int(row[0]),
-                    open=float(row[1]),
-                    high=float(row[2]),
-                    low=float(row[3]),
-                    close=float(row[4]),
-                    volume=float(row[5]),
-                    close_time=int(row[6]),
-                    quote_volume=float(row[7]),
-                    num_trades=int(row[8]),
-                    taker_buy_base_volume=float(row[9]),
-                    taker_buy_quote_volume=float(row[10]),
-                    ignore=int(row[11])
+                tick = BTCUSDT_TradeTick(
+                    trade_id=int(row[0]),
+                    price=float(row[1]),
+                    qty=float(row[2]),
+                    quote_qty=float(row[3]),
+                    timestamp=int(float(row[4])),  # sometimes it's in scientific notation
+                    is_buyer_maker=row[5].lower() == 'true',
+                    is_best_match=row[6].lower() == 'true'
                 )
-                session.add(entry)
+                session.add(tick)
             except Exception as ex:
                 print(f"Skipping row due to error: {ex}")
     session.commit()
@@ -84,7 +78,7 @@ def main():
     os.makedirs(DATA_DIR, exist_ok=True)
 
     # Download and process a range of days
-    for day in tqdm(range(1, 25)):
+    for day in tqdm(range(1, 3)):
         file = os.path.join(DATA_DIR, download_zip(day))
         parse_csv_and_insert(file)
         clean_up(file)
