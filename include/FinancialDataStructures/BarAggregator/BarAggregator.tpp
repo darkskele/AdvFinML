@@ -1,5 +1,5 @@
 #pragma once
-#include "Concepts.hpp"
+#include "BarAggConcepts.hpp"
 #include "BarAggregator.hpp"
 
 namespace BarAgg

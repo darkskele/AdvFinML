@@ -1,6 +1,6 @@
 #pragma once
 #include <deque>
-#include "Concepts.hpp"
+#include "BarAggConcepts.hpp"
 #include "TradeTick.hpp"
 #include "TradeBar.hpp"
 

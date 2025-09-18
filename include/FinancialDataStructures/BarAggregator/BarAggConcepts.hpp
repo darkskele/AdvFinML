@@ -1,5 +1,7 @@
 #pragma once
+
 #include <concepts>
+
 #include "TradeBar.hpp"
 
 namespace BarAgg

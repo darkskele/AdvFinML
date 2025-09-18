@@ -78,7 +78,7 @@ def main():
     os.makedirs(DATA_DIR, exist_ok=True)
 
     # Download and process a range of days
-    for day in tqdm(range(1, 3)):
+    for day in tqdm(range(1, 29)):
         file = os.path.join(DATA_DIR, download_zip(day))
         parse_csv_and_insert(file)
         clean_up(file)

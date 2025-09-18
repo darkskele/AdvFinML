@@ -7,7 +7,7 @@
       "command": "bash",
       "args": [
         "-c",
-        "mkdir -p build && cd build && cmake .. && cmake --build . --target main_exe --clean-first"
+        "mkdir -p build && cd build && cmake .. && cmake --build . --target finml_app --clean-first"
       ],
       "options": {
         "cwd": "${workspaceFolder}"

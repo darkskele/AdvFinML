@@ -5,7 +5,7 @@
       "name": "🟢 Run Main (src/main.cpp)",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/main_exe",
+      "program": "${workspaceFolder}/build/app/finml_app",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",
